@@ -197,13 +197,13 @@ class bootutil:
 
 
 class portutils:
-    def __init__(self, items: dict, bootimg: str, sysimg: str, portzip: str, genimg: bool = False):
+    def __init__(self, items: dict, bootimg: str, sysimg: str, portzip: str, genimg: bool = False, outdir: str = "out"):
         self.items = items
         self.sysimg = sysimg
         self.bootimg = bootimg
         self.portzip = portzip
         self.genimg = genimg  # if you want system.img
-        self.outdir = Path("out")
+        self.outdir = Path(outdir)
         if not self.outdir.exists():
             self.outdir.mkdir(parents=True)
         if not self.__check_exist:
