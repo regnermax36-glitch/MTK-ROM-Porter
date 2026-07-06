@@ -208,6 +208,49 @@ support_chipset_portstep = {
             ]
         },
     },
+    'Qualcomm Snapdragon 845 Sony Xperia XZ3': {
+        'partitions': {},
+        'flags': {
+            'generate_script': False,
+            'replace_kernel': True,
+            'replace_fstab': False,
+            'selinux_permissive': True,
+            'enable_adb': True,
+            'replace_firmware': True,
+            'replace_mddb': False,
+            'replace_malidriver': False,
+            'replace_audiodriver': False,
+            'replace_libshowlogo': False,
+            'replace_mtk-kpd': False,
+            'replace_wifi': True,
+            'replace_camera': True,
+            'single_simcard': False,
+            'dual_simcard': False,
+            'fit_density': True,
+            'change_model': True,
+            'change_timezone': True,
+            'change_locale': True,
+            'use_custom_update-binary': True,
+        },
+        'replace': {
+            'kernel': [
+                "kernel",
+            ],
+            'fstab': [],
+            'firmware': [
+                "etc/firmware"
+            ],
+            'mddb': [],
+            'malidriver': [],
+            'audiodriver': [],
+            'libshowlogo': [],
+            'mtk-kpd': [],
+            'wifi': [
+                "etc/wifi",
+            ],
+            'camera': []
+        },
+    },
 }
 
 if op.isfile("configs.json"):
