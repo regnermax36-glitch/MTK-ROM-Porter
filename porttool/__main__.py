@@ -12,7 +12,7 @@ if name == 'nt':
 
 def main():
     parser = argparse.ArgumentParser(description="MTK ROM Porter")
-    parser.add_argument("--base", required=True, help="Base directory containing boot.img and system.img")
+    parser.add_argument("--base", required=True, help="Base ZIP containing boot.img and system.img")
     parser.add_argument("--port", required=True, help="Port ZIP package path")
     parser.add_argument("--out", default="out", help="Output directory")
 
@@ -21,20 +21,31 @@ def main():
 
     args = parser.parse_args()
 
-    base_dir = Path(args.base)
-    bootimg = base_dir / "boot.img"
-    sysimg = base_dir / "system.img"
-
-    if not bootimg.exists():
-        print(f"Error: Base boot image {bootimg} does not exist.")
-        sys.exit(1)
-    if not sysimg.exists():
-        print(f"Error: Base system image {sysimg} does not exist.")
+    base_zip = Path(args.base)
+    if not base_zip.exists() or not base_zip.is_file():
+        print(f"Error: Base ZIP {base_zip} does not exist.")
         sys.exit(1)
 
     portzip = Path(args.port)
     if not portzip.exists():
         print(f"Error: Port ZIP package {portzip} does not exist.")
+        sys.exit(1)
+
+    # Extract base ZIP
+    from zipfile import ZipFile
+    base_dir = Path("base_extracted")
+    base_dir.mkdir(parents=True, exist_ok=True)
+    with ZipFile(base_zip, 'r') as zipf:
+        zipf.extractall(base_dir)
+
+    bootimg = base_dir / "boot.img"
+    sysimg = base_dir / "system.img"
+
+    if not bootimg.exists():
+        print(f"Error: Base boot image {bootimg} was not found in the extracted base ZIP.")
+        sys.exit(1)
+    if not sysimg.exists():
+        print(f"Error: Base system image {sysimg} was not found in the extracted base ZIP.")
         sys.exit(1)
 
     # Prepare items config
